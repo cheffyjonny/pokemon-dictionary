@@ -1,0 +1,122 @@
+$container-height: 100vh;
+$container-margins: 20px;
+$container-padding-top: 50px;
+$container-list-paddings: 20px;
+
+$input-height: 40px;
+$notification-height: 20px;
+
+#container {
+  position: relative;
+  width: 700px;
+  height: calc($container-height - $container-margins);
+  margin: 10px auto;
+  border-radius: 20px;
+  padding-top: 20px;
+  border: 1px solid #aaaaaa;
+  overflow: hidden;
+
+  ::before {
+    content: '';
+    background-image: url('../assets/monster-ball.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: #dedbde;
+  }
+
+  #container-search {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    #search-input {
+      width: 70%;
+      box-sizing: border-box;
+      border-radius: 15px;
+      border: 2px #4668ab solid;
+      height: $input-height;
+      padding: 0px 12px;
+      margin-bottom: 10px;
+      background-color: #fff;
+    }
+  }
+  #notification {
+    width: 70%;
+    height: $notification-height;
+    margin: 0 auto;
+    color: rgb(225, 99, 99);
+    font-weight: 700;
+  }
+  #container-body {
+    width: 100%;
+    height: calc(
+      $container-height - $container-margins - $container-padding-top -
+        $input-height - $notification-height
+    );
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    #pokemon-card-container {
+      width: 70%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 2px solid #e3cb73;
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 15px;
+      overflow: scroll;
+      margin: 10px 0 10px 0;
+    }
+    #pokemon-card {
+      width: 95%;
+      padding: 10px 12px;
+      margin: 5px 0;
+      background-color: #fff;
+      border: #ddd solid 2px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #194e84;
+    }
+    h5 {
+      color: red;
+      animation: example 4s infinite;
+    }
+    @keyframes example {
+      50% {
+        color: yellow;
+      }
+      100% {
+        color: red;
+      }
+    }
+  }
+}
+
+#pokemon-details-modal {
+  h2 {
+    margin-bottom: 10px;
+  }
+  h3 {
+    margin-bottom: 10px;
+  }
+  img {
+    margin-bottom: 10px;
+  }
+  p {
+    font-weight: 600;
+  }
+  table {
+    width: 100%;
+    p {
+      color: rgb(181, 181, 181);
+    }
+  }
+}
