@@ -57,7 +57,6 @@ const PokemonCard = forwardRef<HTMLDivElement, CardProps>(
         <div
           ref={ref}
           id='pokemon-card'
-          data-testid='card'
           onClick={handleClick}
         >
           <p>
