@@ -69,6 +69,10 @@ export default function usePokemonSearch(
           setHasMore(startPoint < responseAll.data.count)
 
           if (hasMore) {
+            const response = await axios.get(
+              `https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0`
+            )
+
             for (let i = startPoint; i <= endPoint; i++) {
               pokemonData.push(await fetchListItem(i))
             }

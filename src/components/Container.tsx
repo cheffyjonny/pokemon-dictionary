@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, Rootstate } from '@/state/store'
 import { increment } from '@/state/page/pageSlice'
@@ -7,7 +7,9 @@ import '@/styles/container.scss'
 
 import Input from './ui/Input'
 import PokemonListContainer from '@/components/PokemonListContainer'
-import usePokemonSearch from '@/hooks/usePokemonSearch'
+// import usePokemonSearch from '@/hooks/usePokemonSearch'
+import { fetchPokemons } from '@/api/pokemonList'
+import axios from 'axios'
 
 type InputChangeEvent = React.ChangeEvent<HTMLInputElement>
 
@@ -15,15 +17,16 @@ const Container = () => {
   const pageNumber = useSelector((state: Rootstate) => state.page.value)
   const dispatch = useDispatch<AppDispatch>()
   const [query, setQuery] = useState('')
+  const [errorMsg, setErrorMsg] = useState('')
 
   const handleSearch = (e: InputChangeEvent) => {
     setQuery(e.target.value)
   }
 
-  const { pokemonListItems, hasMore, loading, error } = usePokemonSearch(
-    query,
-    pageNumber
-  )
+  // const { pokemonListItems, hasMore, loading, error } = usePokemonSearch(
+  //   query,
+  //   pageNumber
+  // )
 
   return (
     <div id='container'>
@@ -35,22 +38,10 @@ const Container = () => {
       </div>
 
       <div id='notification'>
-        {loading && <p>Loading...</p>}
-        {error && <div>{error}</div>}
+        {status === 'pending' && <p>Loading...</p>}
+        {status === 'error' && <div>{errorMsg}</div>}
       </div>
-
-      {pokemonListItems.length > 0 && (
-        <PokemonListContainer
-          pokemonListItems={pokemonListItems}
-          query={query}
-          loading={loading}
-          hasMore={hasMore}
-          pageNumber={pageNumber}
-          increasePageNumber={() => {
-            dispatch(increment())
-          }}
-        />
-      )}
+      <PokemonListContainer />
     </div>
   )
 }
