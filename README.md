@@ -1,3 +1,8 @@
+# Introduction
+
+Welcome to Retro Pokemon Dictionary. This is a pokemon infinite scroll list with the search.
+It uses open APIs from https://pokeapi.co/. It has a translation script for Korean. It has been implemented with the script to speed up the process.
+
 # Structure
 
 ```
@@ -5,28 +10,30 @@ HomePage
 └── Container
     ├── Input
     └── PokemonListContainer
-        └── PokemonCard
+        └── ListItems
+            └── PokemonDetails
+                └── Modal
 ```
 
 - Container.tsx
-  - Input : UI component( `placeholder`,`onChange`,`onBlur`)
-  - PokemonListContainer : Pokemon List ITEMS Component(`pokemonListItems`, `query`,`loading`,`hasMore`,`pageNumber`,`increasePageNumber`)
-    - PokemonCard : Pokemon List ITEM Component & Lightbox(`pokemonListItem`)
+  - Input : UI component( `placeholder`, `onChange`, `onBlur`)
+  - PokemonListContainer : Pokemon List ITEMS Component(`pokemonListItems`, `query`, `loading`, `hasMore`, `pageNumber`, `increasePageNumber`)
+    - ListItems : Pokemon List ITEM Component & Lightbox(`pokemon`)
+      - PokemonDetails : Details info(`id`, `open`, `handleClose`)
 
 # Logic
 
-## Container.tsx
+## PokemonListContainer.tsx
 
-- `usePokemonSearch` : Custom hook to fetch pokemon list items
-- `pageNumber` : It has been set up with Redux. While it could function without Redux, integrating it with Redux ensures efficiency as the application expands. For instance, it allows for the retention of page information across different pages.
+- `useInfiniteQuery`: To implement infinite scroll
 
-### PokemonListContainer.tsx
+## ListItem.tsx
 
-- `lastPokemonElementRef`: This is where the infinite scrolling occurs.
+- `translation`: To speed up the process, it has implemented translation script with Redux.
 
-### PokemonCard.tsx
+## Details.tsx
 
-- `fetchPokemonDetails`: It fetches details of the Pokémon. By calling the API to fetch a single item's data upon clicking the card, this approach proves more efficient than fetching all the data for the entire list.
+- `fetchProducts`: It fetches details of the pokemon.
 
   <br>
   <br>
@@ -35,41 +42,3 @@ HomePage
 # Set up instruction
 
 To install the package and run the project: `npm install && npm run dev` <br>
-
-# Extra Information
-
-- Initially, I aimed to implement this code to minimize excessive API calls. However, as the project progressed, I realized that this additional code wouldn't be necessary for such a small project.
-
-```js
-useEffect(() => {
-  let cancel: CancelTokenSource
-
-  const fetchData = async () => {
-    try {
-      cancel = axios.CancelToken.source()
-      const response = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon-species/${query}`,
-        {
-          cancelToken: cancel.token,
-        }
-      )
-      setPokemons([response.data])
-    } catch (e) {
-      if (axios.isCancel(e)) {
-        console.log('Request canceled:', e.message)
-      } else {
-        setError(true)
-        console.error(e)
-      }
-    }
-  }
-
-  fetchData()
-
-  return () => {
-    if (cancel) {
-      cancel.cancel('Request canceled by cleanup')
-    }
-  }
-}, [query, pageNumber])
-```
