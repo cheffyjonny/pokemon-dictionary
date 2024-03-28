@@ -40,9 +40,9 @@ const getNextChain = async (
 
     //   The second stage on the evolution chain
     case evolutionChain.evolves_to[0].species.name:
-      return getIdFromUrl(
-        evolutionChain?.evolves_to[0].evolves_to[0].species.url
-      )
+      return evolutionChain.evolves_to[0].evolves_to[0]
+        ? getIdFromUrl(evolutionChain.evolves_to[0].evolves_to[0].species.url)
+        : ''
 
     default:
       return
@@ -54,6 +54,7 @@ const fetchData = async (id: number) => {
   const evolutionChain = await getPokemonEvolutionChain(
     species.evolution_chain.url
   )
+  console.log(evolutionChain)
   const pokemonName = pokemonInfo.name
 
   // // Set previous pokemon

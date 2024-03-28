@@ -81,7 +81,7 @@ const PokemonDetails = ({ id, open, handleClose }: PokemonDetails) => {
                 title={'기술'}
               />
               <img
-                width={400}
+                width={200}
                 src={pokemonDetails.img}
                 alt=''
               />
